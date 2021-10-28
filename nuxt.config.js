@@ -31,7 +31,10 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
+  components: [
+    '~/components',
+    '~/components/app'
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -39,6 +42,7 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -57,12 +61,13 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
+          background: '#222334',
+          primary: '#42a5f5',
+          accent: 'ebefe2',
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
+          warning: '#efd156',
+          error: '#d7673b',
           success: colors.green.accent3
         }
       }
