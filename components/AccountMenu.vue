@@ -8,13 +8,24 @@
     offset-y
   >
     <template #activator="{ on }">
-      <v-avatar v-on="on" size="36">
-        <v-img v-if="$auth.getAvatar" :src="$auth.getAvatar" />
+      <v-avatar
+        v-if="$auth.profile"
+        v-on="on"
+        :color="$auth.profile.color"
+        size="36"
+      >
+        <v-icon> {{ $auth.profile.avatar }}</v-icon>
+        <!-- <v-img v-if="$auth.getAvatar" :src="$auth.getAvatar" /> -->
+      </v-avatar>
+      <v-avatar v-else color="error" size="36">
+        <v-icon>mdi-skull</v-icon>
       </v-avatar>
     </template>
 
     <v-card class="pa-2" width="220">
-      <v-card-title class="py-2"> Hi, {{ $auth.getFirstName }} </v-card-title>
+      <v-card-title class="py-2 font-weight-bold">
+        Hi, {{ $auth.profile.username }}
+      </v-card-title>
 
       <v-divider />
 
@@ -55,9 +66,9 @@
 const menuItems = [
   [
     {
-      title: 'Account',
+      title: 'Profile',
       icon: 'mdi-account-circle',
-      route: 'account',
+      route: 'profile',
     },
     {
       title: 'My Library',

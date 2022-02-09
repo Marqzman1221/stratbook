@@ -22,7 +22,7 @@
     </template>
 
     <v-card class="pa-2" width="360">
-      <v-card-title class="py-2"> Notifications </v-card-title>
+      <v-card-title class="py-2 font-weight-bold"> Notifications </v-card-title>
 
       <v-divider />
 

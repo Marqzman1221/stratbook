@@ -9,7 +9,7 @@
     "
   >
     <v-card class="pa-4" flat>
-      <v-card-title class="pa-0">
+      <v-card-title v-if="!dialog.hideToolbar" class="pa-0">
         {{ dialog.title }}
 
         <v-spacer />
@@ -19,11 +19,9 @@
         </v-btn>
       </v-card-title>
 
-      <div class="px-4 py-6">
-        <component :is="dialog.component" v-if="dialog.component" />
-        <div v-else-if="dialog.message">
-          {{ dialog.message }}
-        </div>
+      <component :is="dialog.component" v-if="dialog.component" />
+      <div v-else-if="dialog.message" class="px-4 py-6">
+        {{ dialog.message }}
       </div>
 
       <v-card-actions v-if="dialog.onSubmit" class="pa-0">

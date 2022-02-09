@@ -22,7 +22,7 @@
     </template>
 
     <v-card class="pa-2" width="240">
-      <v-card-title class="py-2"> Create </v-card-title>
+      <v-card-title class="py-2 font-weight-bold"> Create </v-card-title>
 
       <v-divider />
 

@@ -11,8 +11,6 @@
 
       <account-menu key="account-menu" />
     </template>
-    <v-btn v-else key="log-in-button" color="primary" :to="{ name: 'login' }">
-      Login
-    </v-btn>
+    <v-btn v-else color="primary" :to="{ name: 'login' }"> Login </v-btn>
   </v-app-bar>
 </template>

@@ -9,6 +9,7 @@ export const useDialog = defineStore('dialog', {
     message: '',
     onSubmit: undefined,
     pendingMessage: '',
+    hideToolbar: false,
   }),
 
   actions: {
@@ -19,10 +20,11 @@ export const useDialog = defineStore('dialog', {
       this.message = payload.message
       this.onSubmit = payload.onSubmit
       this.pendingMessage = payload.pendingMessage
+      this.hideToolbar = payload.hideToolbar
 
       this.show = true
     },
-    async submit() {
+    async submit(callback?: () => Promise<string> | undefined) {
       if (this.submit === undefined) return
 
       this.show = false
@@ -30,7 +32,7 @@ export const useDialog = defineStore('dialog', {
       await this.$nuxt.$notify(
         this.pendingMessage,
         { color: 'primary' },
-        this.onSubmit
+        callback || this.onSubmit
       )
 
       this.$reset()

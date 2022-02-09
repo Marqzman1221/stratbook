@@ -18,24 +18,12 @@ export default defineNuxtPlugin((nuxtApp: any) => {
         return this.auth.getLoggedIn
       }
 
-      get getUser() {
+      get user() {
         return this.auth.getUser
       }
 
-      get getAvatar() {
-        return this.auth.getAvatar
-      }
-
-      get getFirstName() {
-        return this.auth.getFirstName
-      }
-
-      get getLastName() {
-        return this.auth.getLastName
-      }
-
-      get getFullName() {
-        return this.auth.getFullName
+      get profile() {
+        return this.auth.getProfile
       }
 
       async login(provider: Provider) {
@@ -65,8 +53,17 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
         console.log('FETCH USER:', user)
 
-        if (!user) this.auth.$reset()
-        else this.auth.setUser(user)
+        if (!user) {
+          this.auth.$reset()
+          return
+        } else this.auth.setUser(user)
+
+        const { data: profiles, error } = await nuxtApp.$supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+
+        if (!error) this.auth.setProfile(profiles[0])
       }
 
       async deleteAccount() {
@@ -87,11 +84,24 @@ export default defineNuxtPlugin((nuxtApp: any) => {
     }
   }
 
-  function handleSignedIn(session: any) {
+  async function handleSignedIn(session: any) {
     const auth = useAuth(nuxtApp.$pinia)
 
     auth.setUser(session.user)
-    nuxtApp.$router.push({ name: 'dashboard' })
+
+    const { data: profiles, error } = await nuxtApp.$supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+
+    if (!error) auth.setProfile(profiles[0])
+
+    if (auth.profile.initialized) {
+      nuxtApp.$router.push({ name: 'library' })
+      return
+    }
+
+    nuxtApp.$router.push({ name: 'profile-setup' })
   }
 
   function handleSignedOut() {

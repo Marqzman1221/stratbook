@@ -1,4 +1,4 @@
-import { routeOption, getMatchedComponents } from '~/util/auth'
+import { routeOption, getMatchedComponents, insidePage } from '~/util/auth'
 import type { Middleware } from '@nuxt/types'
 
 export default <Middleware>async function (ctx: any) {
@@ -15,6 +15,16 @@ export default <Middleware>async function (ctx: any) {
   // If page is not found, route to either home or login
   if (!components.length) {
     redirect($auth.loggedIn ? home : login)
+    return
+  }
+
+  if (
+    $auth.loggedIn &&
+    $auth.profile &&
+    !$auth.profile.initialized &&
+    !insidePage(ctx, route, '/profile-setup')
+  ) {
+    redirect('/profile-setup')
     return
   }
 
