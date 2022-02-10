@@ -16,14 +16,14 @@
       <template v-for="nav in navItems">
         <v-tooltip
           :key="`nav-${nav.route}`"
-          color="primary"
+          :color="$auth.profile.color"
           transition="slide-x-transition"
           right
         >
           <template #activator="{ on }">
             <v-list-item
               v-on="on"
-              active-class="primary--text active-nav-item"
+              active-class="active-nav-item"
               class="justify-center align-center"
               :to="{ name: nav.route }"
             >
@@ -48,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+const { $auth } = useNuxtApp()
+
 const navItems = [
   {
     name: 'Discover',
@@ -79,7 +81,9 @@ const navItems = [
 
 <style>
 .active-nav-item {
-  border-right: 4px solid #1976d2;
+  color: var(--current-profile-color) !important;
+  caret-color: var(--current-profile-color) !important;
+  border-right: 4px solid var(--current-profile-color);
   padding-right: 12px !important;
 }
 </style>

@@ -1,4 +1,8 @@
-.page-enter-active,
+:root {
+  current-profile-color: #1976d2;
+}
+
+/* .page-enter-active,
 .page-leave-active {
   background-color: #121212;
   transition: opacity 0.1s;
@@ -16,4 +20,4 @@
 .layout-enter,
 .layout-leave-active {
   opacity: 0;
-}
+} */

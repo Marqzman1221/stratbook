@@ -11,3 +11,14 @@
     </v-main>
   </v-app>
 </template>
+
+<script setup lang="ts">
+const { $auth } = useNuxtApp()
+
+onMounted(() => {
+  document.documentElement.style.setProperty(
+    '--current-profile-color',
+    $auth.profile.color
+  )
+})
+</script>
