@@ -1,6 +1,6 @@
 import { useNotification } from '~/stores/notification'
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin((nuxtApp: any) => {
   nuxtApp.provide(
     'notify',
     async (

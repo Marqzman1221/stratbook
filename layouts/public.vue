@@ -4,7 +4,7 @@
 
     <app-dialog />
 
-    <app-nav-bar />
+    <app-header />
 
     <v-main>
       <Nuxt class="pa-4" />

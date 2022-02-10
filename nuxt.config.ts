@@ -12,6 +12,11 @@ export default defineNuxtConfig({
   ssr: false,
   target: 'static',
 
+  env: {
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    SUPABASE_KEY: process.env.SUPABASE_KEY,
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - stratbook',
@@ -42,7 +47,12 @@ export default defineNuxtConfig({
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/auth.ts', '~/plugins/notify.ts', '~/plugins/dialog.ts'],
+  plugins: [
+    '~/plugins/supabase.ts',
+    '~/plugins/auth.ts',
+    '~/plugins/notify.ts',
+    '~/plugins/dialog.ts',
+  ],
 
   router: {
     middleware: ['auth'],
@@ -62,14 +72,6 @@ export default defineNuxtConfig({
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-
-    [
-      'nuxt-supabase',
-      {
-        supabaseUrl: 'https://tpkhfjaadtydhrbenfde.supabase.co',
-        supabaseKey: process.env.SUPABASE_API_KEY,
-      },
-    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

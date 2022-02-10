@@ -1,48 +1,50 @@
 <template>
-  <v-menu
-    transition="slide-y-transition"
-    nudge-bottom="8"
-    bottom
-    left
-    rounded
-    offset-y
-  >
+  <v-menu transition="slide-x-transition" nudge-right="16" right top offset-x>
     <template #activator="{ on }">
-      <v-avatar
+      <v-btn
         v-if="$auth.profile"
         v-on="on"
-        :color="$auth.profile.color"
-        size="36"
+        style="border-radius: 50%"
+        height="48"
+        width="48"
+        :ripple="false"
+        icon
       >
-        <v-icon> {{ $auth.profile.avatar }}</v-icon>
-        <!-- <v-img v-if="$auth.getAvatar" :src="$auth.getAvatar" /> -->
-      </v-avatar>
-      <v-avatar v-else color="error" size="36">
-        <v-icon>mdi-skull</v-icon>
-      </v-avatar>
+        <v-avatar :color="$auth.profile.color" size="48">
+          <v-icon size="36"> {{ $auth.profile.avatar }}</v-icon>
+          <!-- <v-img v-if="$auth.getAvatar" :src="$auth.getAvatar" /> -->
+        </v-avatar>
+      </v-btn>
     </template>
 
-    <v-card class="pa-2" width="220">
-      <v-card-title class="py-2 font-weight-bold">
-        Hi, {{ $auth.profile.username }}
+    <v-card class="pa-2" color="black" width="300">
+      <v-card-title
+        v-if="$auth.profile"
+        class="d-flex flex-row mb-2 pa-2 font-weight-bold"
+      >
+        <v-avatar class="mr-4" :color="$auth.profile.color" size="48">
+          <v-icon size="36"> {{ $auth.profile.avatar }}</v-icon>
+          <!-- <v-img v-if="$auth.getAvatar" :src="$auth.getAvatar" /> -->
+        </v-avatar>
+
+        {{ $auth.profile.username }}
       </v-card-title>
 
       <v-divider />
 
-      <v-list class="pb-0">
-        <template v-for="(list, listIndex) in menuItems">
-          <v-divider
+      <v-list class="pb-0" color="black">
+        <template v-for="(item, index) in menuItems">
+          <!-- <v-divider
             v-if="listIndex !== 0"
             :key="`divider-${listIndex}`"
             class="my-2"
-          />
+          /> -->
 
           <v-list-item
-            v-for="(item, index) in list"
-            :key="`primary-${listIndex}-${index}`"
+            :key="`menu-item-${index}`"
             class="px-0"
             dense
-            :to="{ name: item.route }"
+            @click="item.action()"
           >
             <v-list-item-icon class="mx-4">
               <v-icon dense>
@@ -57,43 +59,62 @@
             </v-list-item-content>
           </v-list-item>
         </template>
+
+        <!-- <v-divider class="my-2" />
+
+        <v-list-item class="px-0" dense @click="$auth.logout()">
+          <v-list-item-icon class="mx-4">
+            <v-icon dense> mdi-logout </v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title class="subtitle-2"> Sign Out </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> -->
       </v-list>
     </v-card>
   </v-menu>
 </template>
 
 <script setup lang="ts">
-const menuItems = [
-  [
-    {
-      title: 'Profile',
-      icon: 'mdi-account-circle',
-      route: 'profile',
-    },
-    {
-      title: 'My Library',
-      icon: 'mdi-book-open-variant',
-      route: 'library',
-    },
-  ],
-  [
-    {
-      title: 'Help',
-      icon: 'mdi-help-circle',
-      route: 'help',
-    },
-    {
-      title: 'Settings',
-      icon: 'mdi-cog',
-      route: 'settings',
-    },
-  ],
-  [
-    {
-      title: 'Sign Out',
-      icon: 'mdi-logout',
-      route: 'logout',
-    },
-  ],
+const { $auth: auth, $dialog } = useNuxtApp()
+
+const menuItems: { title: string; icon: string; action: () => void }[] = [
+  // [
+  {
+    title: 'Update profile',
+    icon: 'mdi-pencil',
+    action: () =>
+      $dialog({
+        attributes: {
+          persistent: true,
+        },
+        title: 'Profile Update',
+        message: 'Update your profile here',
+      }),
+  },
+  {
+    title: 'Logout',
+    icon: 'mdi-logout',
+    action: auth.logout,
+  },
+  //   {
+  //     title: 'My Library',
+  //     icon: 'mdi-book-open-variant',
+  //     route: 'library',
+  //   },
+  // ],
+  // [
+  //   {
+  //     title: 'Help',
+  //     icon: 'mdi-help-circle',
+  //     route: 'help',
+  //   },
+  //   {
+  //     title: 'Settings',
+  //     icon: 'mdi-cog',
+  //     route: 'settings',
+  //   },
+  // ],
 ]
 </script>

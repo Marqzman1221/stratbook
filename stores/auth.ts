@@ -17,6 +17,9 @@ export const useAuth = defineStore('auth', {
     setProfile(payload: any): void {
       this.profile = payload
     },
+    setSession(payload: any): void {
+      this.session = payload
+    },
   },
 
   getters: {
@@ -55,7 +58,7 @@ export const useAuth = defineStore('auth', {
 export type AuthStore = ReturnType<typeof useAuth>
 
 export type AuthStoreState = {
-  loggedIn: boolean
+  loggedIn: boolean | undefined
   user: User | null
   profile: any | null
   session: Session | null

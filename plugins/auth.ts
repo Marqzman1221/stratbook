@@ -27,25 +27,49 @@ export default defineNuxtPlugin((nuxtApp: any) => {
       }
 
       async login(provider: Provider) {
-        const { user, session, error } = await nuxtApp.$supabase.auth.signIn({
-          provider,
-        })
+        const { user, session, error } = await nuxtApp.$supabase.auth.signIn(
+          {
+            provider,
+          },
+          {
+            redirectTo: window.location.origin + '/redirect',
+          }
+        )
 
         if (error) {
           this.auth.$reset()
+
+          nuxtApp.$notify('An issue occured while logging in', {
+            color: 'error',
+          })
+
           throw error
         }
 
-        console.log('LOG IN:', { user, session })
+        // console.log('LOG IN:', { user, session })
 
         // UPDATE AUTH STORE
-        this.auth.setUser(user)
+        // this.auth.setUser(user)
       }
 
       async logout() {
-        nuxtApp.$supabase.auth.signOut()
+        const route = nuxtApp.$route.name
 
-        // UPDATE AUTH STORE
+        nuxtApp.$router.push({ name: 'redirect' })
+
+        setTimeout(async () => {
+          const { error } = await nuxtApp.$supabase.auth.signOut()
+
+          if (error) {
+            nuxtApp.$router.push({ name: route })
+
+            nuxtApp.$notify('An issue occured while logging out', {
+              color: 'error',
+            })
+
+            return
+          }
+        }, 2000)
       }
 
       async fetchUser() {
@@ -55,8 +79,15 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
         if (!user) {
           this.auth.$reset()
+
+          // nuxtApp.$supabase.auth.setAuth('invalid.auth.token')
+
           return
         } else this.auth.setUser(user)
+
+        const session = nuxtApp.$supabase.auth.session()
+
+        nuxtApp.$supabase.auth.setAuth(session.access_token)
 
         const { data: profiles, error } = await nuxtApp.$supabase
           .from('profiles')
@@ -89,6 +120,8 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
     auth.setUser(session.user)
 
+    nuxtApp.$supabase.auth.setAuth(session.access_token)
+
     const { data: profiles, error } = await nuxtApp.$supabase
       .from('profiles')
       .select('*')
@@ -106,6 +139,8 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
   function handleSignedOut() {
     const auth = useAuth(nuxtApp.$pinia)
+
+    // nuxtApp.$supabase.auth.setAuth('invalid.auth.token')
 
     auth.$reset()
     nuxtApp.$router.push({ name: 'index' })

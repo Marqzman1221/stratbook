@@ -15,6 +15,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@pinia/nuxt": "^0.1.8",
+    "@supabase/supabase-js": "^1.30.0",
     "core-js": "^3.19.3",
     "nuxt-edge": "latest",
     "nuxt-supabase": "^2.2.1",

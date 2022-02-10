@@ -19,11 +19,46 @@
         Open Fullscreen
       </v-btn>
     </v-toolbar>
+
+    <v-toolbar class="mt-2" flat>
+      <v-btn color="error" @click="fetchUsers()"> Fetch Users</v-btn>
+    </v-toolbar>
+
+    <v-list>
+      <v-list-item v-if="userList.value.length === 0">
+        <v-list-item-content>
+          <v-list-item-title class="error--text">
+            No Users Available
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <template v-else>
+        <v-list-item
+          v-for="(user, index) in userList.value"
+          :key="`user-${index}`"
+        >
+          <v-list-item-avatar size="48" r>
+            <v-avatar :color="user.color" size="48">
+              <v-icon>{{ user.avatar }}</v-icon>
+            </v-avatar>
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ user.username }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+    </v-list>
   </div>
 </template>
 
 <script setup lang="ts">
-const { $notify, $dialog } = useNuxtApp()
+import { reactive } from '#imports'
+
+const { $notify, $dialog, $supabase } = useNuxtApp()
 
 function openBasic() {
   $notify('Basic message!')
@@ -72,10 +107,25 @@ function openFullscreen() {
     pendingMessage: 'Submitting form...',
   })
 }
+
+const userList = reactive({ value: [] })
+
+async function fetchUsers() {
+  const { data: users, error } = await $supabase.from('profiles').select('*')
+
+  console.log(users)
+
+  if (error) {
+    $notify('There was an issue fetching users', { color: 'error' })
+  }
+
+  userList.value = users
+}
 </script>
 
 <script lang="ts">
 export default {
   auth: false,
+  layout: 'public',
 }
 </script>

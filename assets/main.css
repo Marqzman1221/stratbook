@@ -1,0 +1,19 @@
+.page-enter-active,
+.page-leave-active {
+  background-color: #121212;
+  transition: opacity 0.1s;
+}
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  background-color: #121212;
+  transition: opacity 0.3s;
+}
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}

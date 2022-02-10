@@ -4,13 +4,9 @@
 
     <v-spacer />
 
-    <template v-if="$auth.loggedIn">
-      <create-menu />
-
-      <notification-menu />
-
-      <account-menu key="account-menu" />
-    </template>
+    <v-btn v-if="$auth.loggedIn" color="primary" :to="{ name: 'library' }">
+      My Library
+    </v-btn>
     <v-btn v-else color="primary" :to="{ name: 'login' }"> Login </v-btn>
   </v-app-bar>
 </template>
