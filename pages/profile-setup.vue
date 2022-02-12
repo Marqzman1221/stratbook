@@ -165,14 +165,16 @@ async function submit() {
   loading.value = true
 
   await $notify(null, { color: 'primary' }, async () => {
-    const { data: profiles, error } = await $supabase
+    const { data: profile, error } = await $supabase
       .from('profiles')
       .update({ ...form, initialized: true })
       .eq('id', $auth.user.id)
+      .limit(1)
+      .single()
 
     if (error) return 'An issue occurred while updating your profile'
 
-    auth.setProfile(profiles[0])
+    auth.setProfile(profile)
 
     return 'Successfully updated your profile'
   })

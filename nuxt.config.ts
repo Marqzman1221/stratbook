@@ -52,6 +52,8 @@ export default defineNuxtConfig({
     '~/plugins/auth.ts',
     '~/plugins/notify.ts',
     '~/plugins/dialog.ts',
+
+    '~/plugins/pinia/router.ts',
   ],
 
   router: {

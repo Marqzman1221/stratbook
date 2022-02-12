@@ -25,7 +25,7 @@ export const useDialog = defineStore('dialog', {
       this.show = true
     },
     async submit(callback?: () => Promise<string> | undefined) {
-      if (this.submit === undefined) return
+      if (!callback && !this.onSubmit) return
 
       this.show = false
 

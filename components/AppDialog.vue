@@ -7,6 +7,8 @@
       dialog.transition ||
       (attributes.fullscreen ? 'dialog-bottom-transition' : undefined)
     "
+    @click:outside="handleClose()"
+    @keydown.esc="handleClose()"
   >
     <v-card class="pa-4" flat>
       <v-card-title v-if="!dialog.hideToolbar" class="pa-0">
@@ -14,7 +16,7 @@
 
         <v-spacer />
 
-        <v-btn tile icon @click="dialog.close()">
+        <v-btn style="border-radius: 4px" tile icon @click="dialog.close()">
           <v-icon> mdi-close </v-icon>
         </v-btn>
       </v-card-title>
@@ -37,4 +39,10 @@ import { useDialog } from '~/stores/dialog'
 const dialog = useDialog()
 
 const attributes = computed(() => dialog.getAttributes)
+
+function handleClose() {
+  if (attributes.value.persistent) return
+
+  dialog.close()
+}
 </script>

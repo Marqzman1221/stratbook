@@ -6,7 +6,11 @@
 
     <app-nav-bar />
 
+    <app-header-two />
+
     <v-main>
+      <v-divider class="mx-4" />
+
       <Nuxt class="pa-4" />
     </v-main>
   </v-app>

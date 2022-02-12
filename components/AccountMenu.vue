@@ -5,13 +5,12 @@
         v-if="$auth.profile"
         v-on="on"
         style="border-radius: 50%"
-        height="48"
-        width="48"
         :ripple="false"
+        tile
         icon
       >
-        <v-avatar :color="$auth.profile.color" size="48">
-          <v-icon size="36"> {{ $auth.profile.avatar }}</v-icon>
+        <v-avatar :color="$auth.profile.color" size="36">
+          <v-icon> {{ $auth.profile.avatar }}</v-icon>
           <!-- <v-img v-if="$auth.getAvatar" :src="$auth.getAvatar" /> -->
         </v-avatar>
       </v-btn>

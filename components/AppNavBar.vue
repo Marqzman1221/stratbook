@@ -48,8 +48,6 @@
 </template>
 
 <script setup lang="ts">
-const { $auth } = useNuxtApp()
-
 const navItems = [
   {
     name: 'Discover',
@@ -57,7 +55,7 @@ const navItems = [
     icon: 'mdi-compass',
   },
   {
-    name: 'My Library',
+    name: 'Library',
     route: 'library',
     icon: 'mdi-book-open-variant',
   },

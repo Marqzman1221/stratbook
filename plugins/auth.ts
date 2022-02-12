@@ -89,12 +89,14 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
         nuxtApp.$supabase.auth.setAuth(session.access_token)
 
-        const { data: profiles, error } = await nuxtApp.$supabase
+        const { data: profile, error } = await nuxtApp.$supabase
           .from('profiles')
           .select('*')
           .eq('id', user.id)
+          .limit(1)
+          .single()
 
-        if (!error) this.auth.setProfile(profiles[0])
+        if (!error) this.auth.setProfile(profile)
       }
 
       async deleteAccount() {
@@ -122,12 +124,14 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
     nuxtApp.$supabase.auth.setAuth(session.access_token)
 
-    const { data: profiles, error } = await nuxtApp.$supabase
+    const { data: profile, error } = await nuxtApp.$supabase
       .from('profiles')
       .select('*')
       .eq('id', session.user.id)
+      .limit(1)
+      .single()
 
-    if (!error) auth.setProfile(profiles[0])
+    if (!error) auth.setProfile(profile)
 
     if (auth.profile.initialized) {
       nuxtApp.$router.push({ name: 'library' })
